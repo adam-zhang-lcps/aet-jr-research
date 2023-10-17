@@ -34,6 +34,8 @@ X = np.insert(X, 0, 1, axis = 1)
 W = np.array([2.0, 1.0, 1.0])
 learning_rate = 0.003
 
+print("Initial cost: ", calc_cost(X, W, Y))
+
 iteration = 0
 while iteration < 100000:
     gradient = calc_gradient(X, Y, W)
@@ -46,6 +48,7 @@ while iteration < 100000:
     iteration += 1
 
 print("Final weights: ", W)
+print("Final cost: ", calc_cost(X, W, Y))
 
 # Prediction
 inputs = np.array([[22.4, 8.6]])
