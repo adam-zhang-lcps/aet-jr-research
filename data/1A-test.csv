@@ -1,0 +1,17 @@
+"#    In various states, population and drinking data was recorded.				",,,,
+"#				",,,,
+"#      A1, the size of the urban population,				",,,,
+"#      A2, the number of births to women between 45 to 49				",,,,
+"#          (actually, the reciprocal of that value, times 100)				",,,,
+"#      A3, the consumption of wine per capita,				",,,,
+"#      A4, the consumption of hard liquor per capita,				",,,,
+"#      B,  the death rate from cirrhosis.				",,,,
+"#				",,,,
+"#    We seek a model of the form:				",,,,
+"#				",,,,
+"#      B = A0 * X0 + A1 * X1 + A2 * X2 + A3 * X3 + A4 * X4.				",,,,
+"#    				",,,,
+UrbanPopuluation(percentage),Late Births (reciprocal *100),WineConsumption/person,Liquor Consumption/person,Cirrhosis Death Rate
+44,33.2,5,30,41.2
+54,45.9,7,57,56.6
+52,39.2,7,48,57.5
