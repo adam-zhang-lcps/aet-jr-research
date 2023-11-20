@@ -6,6 +6,7 @@ from sklearn.preprocessing import OneHotEncoder
 x_max = None
 x_min = None
 x_mean = None
+ohe_cabin_letters = None
 
 np.set_printoptions(threshold=sys.maxsize)
 
@@ -16,11 +17,11 @@ def load_data():
     return x, y
 
 def load_test_data():
-    data = np.loadtxt('data/titanic-test.csv', delimiter=',', dtype=str, skiprows=1, usecols=[0, 1, 4, 5])
-    return data[:, 0], data[:, 1:4]
+    data = np.loadtxt('data/titanic-test.csv', delimiter=',', dtype=str, skiprows=1, usecols=[0, 1, 4, 5, 10])
+    return data[:, 0], data[:, 1:5]
 
 def dataClean(x):
-    global x_max, x_min, x_mean
+    global x_max, x_min, x_mean, ohe_cabin_letters
     # =============================================================================
     # 1) Replace female and male to 1 and 0
     # =============================================================================
@@ -36,10 +37,9 @@ def dataClean(x):
 
     # Cabin info
     letters = x[:, 3].astype("<U1").reshape(-1, 1)
-    print(letters)
-    ohe = OneHotEncoder(categories = 'auto', drop = 'first')
-    encoded = ohe.fit_transform(letters).toarray()
-    print(encoded)
+    if ohe_cabin_letters is None:
+        ohe_cabin_letters = OneHotEncoder(categories = 'auto', drop = 'first').fit(letters)
+    encoded = ohe_cabin_letters.transform(letters).toarray()
     x = np.delete(x, 3, axis=1)
     x = np.append(x, encoded, axis=1)
 
@@ -123,9 +123,8 @@ if __name__ == "__main__":
     print(f"Initial cost: {calc_cost(x, w, y)}")
 
     iteration = 0
-    while (iteration < 100000 and np.linalg.norm(calc_gradient(x, w, y)) > 0.00001):
+    while (iteration < 1000000 and np.linalg.norm(calc_gradient(x, w, y)) > 0.0001):
         w -= learning_rate * calc_gradient(x, w, y)
-        print(f"Cost: {calc_cost(x, w, y)}")
         iteration += 1
     print(f"Final weights: {w}")
     print(f"Final cost: {calc_cost(x, w, y)}")
