@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 import numpy as np
+import sys
 from sklearn.preprocessing import OneHotEncoder
 
 x_max = None
 x_min = None
 x_mean = None
 
+np.set_printoptions(threshold=sys.maxsize)
+
 def load_data():
-    data = np.loadtxt('data/titanic-training.csv', delimiter=',', dtype=str, skiprows=1, usecols=[1, 2, 5, 6])
-    x = data[:, 1:4]
+    data = np.loadtxt('data/titanic-training.csv', delimiter=',', dtype=str, skiprows=1, usecols=[1, 2, 5, 6, 11])
+    x = data[:, 1:5]
     y = data[:, 0].astype(float)
     return x, y
 
@@ -30,6 +33,15 @@ def dataClean(x):
     # =============================================================================
     # if blank, replace with "not a number"
     x[:, 2][x[:, 2] == ''] = np.nan
+
+    # Cabin info
+    letters = x[:, 3].astype("<U1").reshape(-1, 1)
+    print(letters)
+    ohe = OneHotEncoder(categories = 'auto', drop = 'first')
+    encoded = ohe.fit_transform(letters).toarray()
+    print(encoded)
+    x = np.delete(x, 3, axis=1)
+    x = np.append(x, encoded, axis=1)
 
 
     # =============================================================================
@@ -103,8 +115,9 @@ if __name__ == "__main__":
     x, y = load_data()
     x = dataClean(x)
     x = np.insert(x, 0, 1, axis=1)
+    print(x)
     w = np.zeros(x.shape[1])
-    learning_rate = 0.8
+    learning_rate = 1.0
 
     print(f"Initial weights: {w}")
     print(f"Initial cost: {calc_cost(x, w, y)}")
@@ -112,6 +125,7 @@ if __name__ == "__main__":
     iteration = 0
     while (iteration < 100000 and np.linalg.norm(calc_gradient(x, w, y)) > 0.00001):
         w -= learning_rate * calc_gradient(x, w, y)
+        print(f"Cost: {calc_cost(x, w, y)}")
         iteration += 1
     print(f"Final weights: {w}")
     print(f"Final cost: {calc_cost(x, w, y)}")
