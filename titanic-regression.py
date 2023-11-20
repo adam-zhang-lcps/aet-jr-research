@@ -7,21 +7,23 @@ x_max = None
 x_min = None
 x_mean = None
 ohe_cabin_letters = None
+ohe_parch = None
+ohe_embarked = None
 
 np.set_printoptions(threshold=sys.maxsize)
 
 def load_data():
-    data = np.loadtxt('data/titanic-training.csv', delimiter=',', dtype=str, skiprows=1, usecols=[1, 2, 5, 6, 11])
-    x = data[:, 1:5]
+    data = np.loadtxt('data/titanic-training.csv', delimiter=',', dtype=str, skiprows=1, usecols=[1, 2, 5, 6, 7, 8, 11, 12])
+    x = data[:, 1:8]
     y = data[:, 0].astype(float)
     return x, y
 
 def load_test_data():
-    data = np.loadtxt('data/titanic-test.csv', delimiter=',', dtype=str, skiprows=1, usecols=[0, 1, 4, 5, 10])
-    return data[:, 0], data[:, 1:5]
+    data = np.loadtxt('data/titanic-test.csv', delimiter=',', dtype=str, skiprows=1, usecols=[0, 1, 4, 5, 6, 7, 10, 11])
+    return data[:, 0], data[:, 1:8]
 
 def dataClean(x):
-    global x_max, x_min, x_mean, ohe_cabin_letters
+    global x_max, x_min, x_mean, ohe_cabin_letters, ohe_parch, ohe_embarked
     # =============================================================================
     # 1) Replace female and male to 1 and 0
     # =============================================================================
@@ -36,13 +38,19 @@ def dataClean(x):
     x[:, 2][x[:, 2] == ''] = np.nan
 
     # Cabin info
-    letters = x[:, 3].astype("<U1").reshape(-1, 1)
+    letters = x[:, 5].astype("<U1").reshape(-1, 1)
     if ohe_cabin_letters is None:
         ohe_cabin_letters = OneHotEncoder(categories = 'auto', drop = 'first').fit(letters)
     encoded = ohe_cabin_letters.transform(letters).toarray()
-    x = np.delete(x, 3, axis=1)
+    x = np.delete(x, 5, axis=1)
     x = np.append(x, encoded, axis=1)
 
+    # Embarked
+    if ohe_embarked is None:
+        ohe_embarked = OneHotEncoder(categories = 'auto', drop = 'first').fit(x[:, 5:6])
+    encoded = ohe_embarked.transform(x[:, 5:6]).toarray()
+    x = np.delete(x, 5, axis=1)
+    x = np.append(x, encoded, axis=1)
 
     # =============================================================================
     # 3) Convert all to floats
@@ -70,6 +78,11 @@ def dataClean(x):
         x_max = np.max(x, axis=0)
         x_min = np.min(x, axis=0)
     x[:, 2] = (x[:, 2] - x_mean) / (x_max[2] - x_min[2])
+
+    ohe = OneHotEncoder(categories = 'auto')
+    encoded = ohe.fit_transform(x[:, 3:4]).toarray()
+    x = np.delete(x, 3, axis=1)
+    x = np.append(x, encoded, axis=1)
 
     ohe = OneHotEncoder(categories = 'auto')
     encoded = ohe.fit_transform(x[:, 0:1]).toarray()
@@ -115,7 +128,6 @@ if __name__ == "__main__":
     x, y = load_data()
     x = dataClean(x)
     x = np.insert(x, 0, 1, axis=1)
-    print(x)
     w = np.zeros(x.shape[1])
     learning_rate = 1.0
 
