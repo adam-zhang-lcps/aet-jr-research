@@ -91,7 +91,7 @@ from keras import models
 from keras import layers
 
 model = models.Sequential()
-model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
+model.add(layers.Dense(32, activation='relu', input_shape=(10000,)))
 model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
@@ -127,7 +127,7 @@ partial_y_train = y_train[10000:]    # 15000
 
 """
 TRAIN
-We will now train our model for 20 epochs (20 iterations over all samples in
+We will now train our model for 4 epochs (4 iterations over all samples in
  the x_train and y_train tensors), in mini-batches of 512 samples. At this
  same time we will monitor loss and accuracy on the 10,000 samples that we
  set apart. This is done by passing the validation data as the validation_data
@@ -135,8 +135,8 @@ We will now train our model for 20 epochs (20 iterations over all samples in
 """
 history = model.fit(partial_x_train,
                     partial_y_train,
-                    epochs=20,
-                    batch_size=512,
+                    epochs=4,
+                    batch_size=1024,
                     validation_data=(x_val, y_val))
 
 
