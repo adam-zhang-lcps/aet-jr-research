@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from sys import argv
 from keras.datasets import mnist
 from keras import models
 from keras import layers
@@ -21,8 +22,9 @@ print(test_images.shape)
 print(len(test_labels))
 print(test_labels)
 
-test_images = test_images.reshape((10000, 28*28))
-train_images = train_images.reshape((60000, 28*28))
+if not "--cnn" in argv:
+    test_images = test_images.reshape((10000, 28*28))
+    train_images = train_images.reshape((60000, 28*28))
 
 train_images = train_images.astype('float32')/255
 test_images = test_images.astype('float32')/255
@@ -33,8 +35,23 @@ train_labels = to_categorical(train_labels)
 test_labels = to_categorical(test_labels)
 
 network = models.Sequential()
-network.add(layers.Dense(512, activation='relu',input_shape=(28*28,)))
-network.add(layers.Dense(10, activation='softmax'))
+if "--cnn" in argv:
+    network.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+    network.add(layers.MaxPooling2D((2, 2)))
+    network.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    network.add(layers.MaxPooling2D((2, 2)))
+    network.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    
+    network.summary()
+
+    network.add(layers.Flatten())
+    network.add(layers.Dense(64, activation='relu'))
+    network.add(layers.Dense(10, activation='softmax'))
+
+    network.summary()  	
+else:
+    network.add(layers.Dense(512, activation='relu',input_shape=(28*28,)))
+    network.add(layers.Dense(10, activation='softmax'))
 
 network.compile(optimizer = 'rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 
