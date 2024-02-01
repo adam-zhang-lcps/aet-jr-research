@@ -16,5 +16,6 @@ with pkgs;
       black
 
       nodejs
+      nodePackages.typescript-language-server
     ];
   }
