@@ -20,6 +20,14 @@ const HomeScreen = (props) => {
           onPress={() => navigation.navigate("Counter")}
           title="Go to Counter"
         />
+        <Button
+          onPress={() => navigation.navigate("StylingBoxScreen")}
+          title="Go to StylingBoxScreen"
+        />
+        <Button
+          onPress={() => navigation.navigate("NorwayFlag")}
+          title="Go to NorwayFlag"
+        />
       </View>
     </View>
   );
