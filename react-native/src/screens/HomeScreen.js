@@ -1,33 +1,58 @@
 import React from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+
+const NavigationButton = ({ screen, navigate }) => {
+  return (
+    <TouchableOpacity onPress={() => navigate(screen)}>
+      <Text
+        style={{
+          fontSize: 24,
+          color: "blue",
+        }}
+      >
+        Go to {screen}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 const HomeScreen = (props) => {
-  const navigation = props.navigation;
+  const { navigation } = props;
   return (
     <View>
       <Text style={styles.text}>HomeScreen</Text>
-      <View>
-        <Text style={styles.text}>Hi there!</Text>
-        <Button
-          onPress={() => navigation.navigate("SongListScreen")}
-          title="Go to SongList"
-        />
-        <Button
-          onPress={() => navigation.navigate("CuteScreen")}
-          title="Go to CuteAnimals"
-        />
-        <Button
-          onPress={() => navigation.navigate("Counter")}
-          title="Go to Counter"
-        />
-        <Button
-          onPress={() => navigation.navigate("StylingBoxScreen")}
-          title="Go to StylingBoxScreen"
-        />
-        <Button
-          onPress={() => navigation.navigate("NorwayFlag")}
-          title="Go to NorwayFlag"
-        />
+      <Text style={styles.text}>Hi there!</Text>
+      <View
+        style={{
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {[
+          "SongListScreen",
+          "Counter",
+          "StylingBoxScreen",
+          "NorwayFlag",
+          "ThePredictor",
+        ].map((s, i) => (
+          <NavigationButton screen={s} navigate={navigation.navigate} key={i} />
+        ))}
+        <TouchableOpacity onPress={() => navigation.navigate("CuteScreen")}>
+          <Image
+            style={{
+              height: 300,
+              width: 400,
+            }}
+            source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/cat.gif" }}
+          />
+          <Text
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            Go to CuteScreen
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
