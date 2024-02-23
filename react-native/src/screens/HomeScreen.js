@@ -35,6 +35,7 @@ const HomeScreen = (props) => {
           "NorwayFlag",
           "ThePredictor",
           "ImageScreen",
+          "Counters",
         ].map((s, i) => (
           <NavigationButton screen={s} navigate={navigation.navigate} key={i} />
         ))}

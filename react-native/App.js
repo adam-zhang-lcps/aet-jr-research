@@ -8,6 +8,7 @@ import StylingBoxScreen from "./src/screens/StylingBoxScreen";
 import NorwayFlag from "./src/screens/NorwayFlag";
 import ThePredictor from "./src/screens/ThePredictor";
 import ImageScreen from "./src/screens/ImageScreen";
+import Counters from "./src/screens/Counters";
 
 const navigator = createStackNavigator(
   {
@@ -19,6 +20,7 @@ const navigator = createStackNavigator(
     NorwayFlag: NorwayFlag,
     ThePredictor: ThePredictor,
     ImageScreen: ImageScreen,
+    Counters: Counters,
   },
   {
     initialRouteName: "Home",
