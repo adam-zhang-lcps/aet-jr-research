@@ -9,6 +9,7 @@ import NorwayFlag from "./src/screens/NorwayFlag";
 import ThePredictor from "./src/screens/ThePredictor";
 import ImageScreen from "./src/screens/ImageScreen";
 import Counters from "./src/screens/Counters";
+import SimpleCalculator from "./src/components/SimpleCalculator";
 
 const navigator = createStackNavigator(
   {
@@ -21,6 +22,7 @@ const navigator = createStackNavigator(
     ThePredictor: ThePredictor,
     ImageScreen: ImageScreen,
     Counters: Counters,
+    SimpleCalculator: SimpleCalculator,
   },
   {
     initialRouteName: "Home",
