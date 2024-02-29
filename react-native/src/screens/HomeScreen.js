@@ -37,6 +37,7 @@ const HomeScreen = (props) => {
           "ImageScreen",
           "Counters",
           "SimpleCalculator",
+          "FullCalculator",
         ].map((s, i) => (
           <NavigationButton screen={s} navigate={navigation.navigate} key={i} />
         ))}
