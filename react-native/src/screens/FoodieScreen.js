@@ -4,11 +4,13 @@ import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import YelpBusinessPreview from "../components/YelpBusinessPreview";
 
-const FoodieScreen = ({ navigation }) => {
-  const [results, setResults] = useState([]);
+const FoodieScreen = () => {
+  const [results, setResults] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
   const makeYelpRequest = async (term) => {
+    setErrMessage(null);
+
     try {
       const response = await yelp.get("/search", {
         params: {
@@ -18,14 +20,17 @@ const FoodieScreen = ({ navigation }) => {
         },
       });
 
-      console.log(response.data.businesses);
-
       setResults(response.data.businesses);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setErrMessage("Something went wrong");
     }
   };
+
+  // Pre-populate (this is definitely not how to do this, but it works ¯\_(ツ)_/¯)
+  if (!results) {
+    makeYelpRequest("");
+  }
 
   return (
     <View>
