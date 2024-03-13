@@ -3,7 +3,9 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 const YelpBusinessPreview = ({ business, navigation }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("YelpBusinessDetails", { business })}
+      onPress={() =>
+        navigation.navigate("YelpBusinessDetails", { businessId: business.id })
+      }
       style={styles.container}
     >
       <Image source={{ uri: business.image_url }} style={styles.image} />

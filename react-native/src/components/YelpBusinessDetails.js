@@ -1,7 +1,14 @@
 import { StyleSheet, View, Text, Image } from "react-native";
+import yelp from "../api/yelp.js";
+import { useMemo } from "react";
 
-const YelpBusinessDetails = ({ route, navigation }) => {
-  let { business } = navigation.state.params;
+const YelpBusinessDetails = ({ navigation }) => {
+  let { businessId } = navigation.state.params;
+
+  const business = useMemo(async () => {
+    return await yelp.get(`/${businessId}`);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
