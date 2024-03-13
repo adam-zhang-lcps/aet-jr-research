@@ -23,7 +23,7 @@ const SearchBar = ({ onSubmit }) => {
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    marginTop: 10,
+    marginVertical: 10,
     backgroundColor: "#F0EEEE",
     height: 50,
     marginRight: 15,
