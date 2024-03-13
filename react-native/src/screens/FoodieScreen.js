@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, Button, FlatList } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
+import YelpBusinessPreview from "../components/YelpBusinessPreview";
 
 const FoodieScreen = ({ navigation }) => {
   const [results, setResults] = useState([]);
@@ -34,7 +35,7 @@ const FoodieScreen = ({ navigation }) => {
         data={results}
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
-          return <Text>{item.name}</Text>;
+          return <YelpBusinessPreview business={item} />;
         }}
       />
     </View>
