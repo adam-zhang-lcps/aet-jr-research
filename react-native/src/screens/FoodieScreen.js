@@ -28,9 +28,9 @@ const FoodieScreen = ({ navigation }) => {
   };
 
   // Pre-populate (this is definitely not how to do this, but it works ¯\_(ツ)_/¯)
-  if (!results && !errMessage) {
-    makeYelpRequest("");
-  }
+  // if (!results && !errMessage) {
+  //   makeYelpRequest("");
+  // }
 
   return (
     <View>
