@@ -11,6 +11,7 @@ import ImageScreen from "./src/screens/ImageScreen";
 import Counters from "./src/screens/Counters";
 import SimpleCalculator from "./src/components/SimpleCalculator";
 import FullCalculator from "./src/screens/FullCalculator";
+import FoodieScreen from "./src/screens/FoodieScreen";
 
 const navigator = createStackNavigator(
   {
@@ -25,6 +26,7 @@ const navigator = createStackNavigator(
     Counters: Counters,
     SimpleCalculator: SimpleCalculator,
     FullCalculator: FullCalculator,
+    FoodieScreen: FoodieScreen,
   },
   {
     initialRouteName: "Home",
