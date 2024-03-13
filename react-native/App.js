@@ -12,21 +12,23 @@ import Counters from "./src/screens/Counters";
 import SimpleCalculator from "./src/components/SimpleCalculator";
 import FullCalculator from "./src/screens/FullCalculator";
 import FoodieScreen from "./src/screens/FoodieScreen";
+import YelpBusinessDetails from "./src/components/YelpBusinessDetails";
 
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
     CuteScreen: CuteAnimals,
-    SongListScreen: SongListScreen,
-    Counter: Counter,
-    StylingBoxScreen: StylingBoxScreen,
-    NorwayFlag: NorwayFlag,
-    ThePredictor: ThePredictor,
-    ImageScreen: ImageScreen,
-    Counters: Counters,
-    SimpleCalculator: SimpleCalculator,
-    FullCalculator: FullCalculator,
-    FoodieScreen: FoodieScreen,
+    SongListScreen,
+    Counter,
+    StylingBoxScreen,
+    NorwayFlag,
+    ThePredictor,
+    ImageScreen,
+    Counters,
+    SimpleCalculator,
+    FullCalculator,
+    FoodieScreen,
+    YelpBusinessDetails,
   },
   {
     initialRouteName: "Home",

@@ -1,11 +1,9 @@
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 
-const YelpBusinessPreview = ({ business, navigation }) => {
+const YelpBusinessDetails = ({ route }) => {
+  let { business } = route.params;
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("YelpBusinessDetails", { business })}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <Image source={{ uri: business.image_url }} style={styles.image} />
       <Text style={styles.title}>{business.name}</Text>
       <View style={styles.infoContainer}>
@@ -21,7 +19,7 @@ const YelpBusinessPreview = ({ business, navigation }) => {
         </Text>
         <Text>{Math.round(business.distance)}m</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -52,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default YelpBusinessPreview;
+export default YelpBusinessDetails;

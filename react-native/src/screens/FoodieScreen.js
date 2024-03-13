@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, Button, FlatList } from "react-native";
+import { Text, StyleSheet, View, FlatList } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import YelpBusinessPreview from "../components/YelpBusinessPreview";
 
-const FoodieScreen = () => {
+const FoodieScreen = ({ navigation }) => {
   const [results, setResults] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
@@ -28,7 +28,7 @@ const FoodieScreen = () => {
   };
 
   // Pre-populate (this is definitely not how to do this, but it works ¯\_(ツ)_/¯)
-  if (!results) {
+  if (!results && !errMessage) {
     makeYelpRequest("");
   }
 
@@ -40,7 +40,9 @@ const FoodieScreen = () => {
         data={results}
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
-          return <YelpBusinessPreview business={item} />;
+          return (
+            <YelpBusinessPreview business={item} navigation={navigation} />
+          );
         }}
       />
     </View>
