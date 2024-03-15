@@ -77,6 +77,14 @@ const YelpBusinessDetails = ({ navigation }) => {
           <Text style={styles.location}>{business.phone}</Text>
         </View>
       </View>
+      {business.date_opened && (
+        <View style={styles.infoContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>📅</Text>
+            <Text style={styles.location}>{business.date_opened}</Text>
+          </View>
+        </View>
+      )}
       <TouchableOpacity onPress={goto} style={styles.goto}>
         <Text style={styles.distance}>Go</Text>
       </TouchableOpacity>
