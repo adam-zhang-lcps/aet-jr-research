@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Text, StyleSheet, View, FlatList } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
@@ -27,10 +27,7 @@ const FoodieScreen = ({ navigation }) => {
     }
   };
 
-  // Pre-populate (this is definitely not how to do this, but it works ¯\_(ツ)_/¯)
-  // if (!results && !errMessage) {
-  //   makeYelpRequest("");
-  // }
+  useMemo(makeYelpRequest, []);
 
   return (
     <View>
