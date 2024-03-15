@@ -1,9 +1,11 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
 import yelp from "../api/yelp.js";
 import { useState, useEffect } from "react";
+import Carousel from "react-native-reanimated-carousel";
 
 const YelpBusinessDetails = ({ navigation }) => {
   let { businessId } = navigation.state.params;
+  const dimension = Dimensions.get("window");
 
   const [business, setBusiness] = useState(null);
   useEffect(() => {
@@ -17,13 +19,26 @@ const YelpBusinessDetails = ({ navigation }) => {
     return null;
   }
 
+  const renderPhoto = ({ item }) => {
+    return (
+      <Image style={styles.image} source={{ uri: item }} resizeMode="cover" />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{business.name}</Text>
         <Text style={styles.price}>{business.price}</Text>
       </View>
-      <Image source={{ uri: business.image_url }} style={styles.image} />
+      <Carousel
+        data={business.photos}
+        renderItem={renderPhoto}
+        style={styles.carousel}
+        autoPlay={true}
+        width={dimension.width}
+        height={0.3 * dimension.height}
+      />
       <View style={styles.infoContainer}>
         <View style={styles.iconContainer}>
           <Text style={styles.icon}>⭐</Text>
@@ -55,6 +70,8 @@ const YelpBusinessDetails = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
     backgroundColor: "#F0EEEE",
     margin: 10,
     borderRadius: 16,
@@ -68,11 +85,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     alignSelf: "center",
   },
+  carousel: {
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: "pink",
+  },
   image: {
     width: "100%",
-    height: "40%",
-    resizeMode: "cover",
+    height: "100%",
     borderRadius: 16,
+    backgroundColor: "pink",
   },
   infoContainer: {
     flexDirection: "row",
