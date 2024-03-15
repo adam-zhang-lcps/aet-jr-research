@@ -5,11 +5,25 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import yelp from "../api/yelp.js";
 import { useState, useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import openMap from "react-native-open-maps";
+
+const Review = ({ review }) => {
+  return (
+    <View style={styles.reviewContainer}>
+      <View style={styles.reviewHeader}>
+        <Text style={styles.reviewName}>{review.user.name}</Text>
+        <Text>{review.time_created}</Text>
+        <Text style={styles.reviewStars}>{"⭐".repeat(review.rating)}</Text>
+      </View>
+      <Text style={styles.reviewText}>{review.text}</Text>
+    </View>
+  );
+};
 
 const YelpBusinessDetails = ({ navigation }) => {
   let { businessId } = navigation.state.params;
@@ -20,6 +34,14 @@ const YelpBusinessDetails = ({ navigation }) => {
     (async () => {
       const response = await yelp.get(`/${businessId}`);
       setBusiness(response.data);
+    })();
+  }, []);
+
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await yelp.get(`/${businessId}/reviews`);
+      setReviews(response.data.reviews);
     })();
   }, []);
 
@@ -85,6 +107,13 @@ const YelpBusinessDetails = ({ navigation }) => {
           </View>
         </View>
       )}
+      <FlatList
+        data={reviews}
+        keyExtractor={(review) => review.id}
+        renderItem={({ item }) => {
+          return <Review review={item} />;
+        }}
+      />
       <TouchableOpacity onPress={goto} style={styles.goto}>
         <Text style={styles.distance}>Go</Text>
       </TouchableOpacity>
@@ -155,6 +184,22 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: "auto",
   },
+  reviewContainer: {
+    flexDirection: "column",
+  },
+  reviewHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  reviewName: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginRight: 10,
+  },
+  reviewStars: {
+    marginLeft: "auto",
+  },
+  reviewText: {},
 });
 
 export default YelpBusinessDetails;
