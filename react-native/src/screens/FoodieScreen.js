@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, FlatList } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
@@ -27,7 +27,12 @@ const FoodieScreen = ({ navigation }) => {
     }
   };
 
-  useEffect(makeYelpRequest, []);
+  // What the f*cking hell, React?
+  useEffect(() => {
+    (async () => {
+      await makeYelpRequest();
+    })();
+  }, []);
 
   return (
     <View>

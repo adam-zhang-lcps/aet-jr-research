@@ -6,9 +6,11 @@ const YelpBusinessDetails = ({ navigation }) => {
   let { businessId } = navigation.state.params;
 
   const [business, setBusiness] = useState(null);
-  useEffect(async () => {
-    const response = await yelp.get(`/${businessId}`);
-    setBusiness(response.data);
+  useEffect(() => {
+    (async () => {
+      const response = await yelp.get(`/${businessId}`);
+      setBusiness(response.data);
+    })();
   }, []);
 
   if (!business) {
@@ -81,18 +83,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   rating: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
   },
   reviewCount: {
-    fontSize: 18,
+    fontSize: 16,
     alignSelf: "center",
   },
   location: {
-    fontSize: 24,
+    fontSize: 18,
   },
   distance: {
-    fontSize: 18,
+    fontSize: 16,
     alignSelf: "center",
   },
 });
