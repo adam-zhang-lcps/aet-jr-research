@@ -27,7 +27,7 @@ const FoodieScreen = ({ navigation }) => {
     }
   };
 
-  useMemo(makeYelpRequest, []);
+  useEffect(makeYelpRequest, []);
 
   return (
     <View>
