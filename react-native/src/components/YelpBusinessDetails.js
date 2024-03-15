@@ -38,7 +38,9 @@ const YelpBusinessDetails = ({ navigation }) => {
           <Text style={styles.icon}>📍</Text>
           <Text style={styles.location}>{business.location.address1}</Text>
         </View>
-        <Text style={styles.distance}>{Math.round(business.distance)}m</Text>
+        {business.distance && (
+          <Text style={styles.distance}>{Math.round(business.distance)}m</Text>
+        )}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.iconContainer}>
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 18,
     fontWeight: "bold",
+    alignSelf: "center",
   },
   reviewCount: {
     fontSize: 16,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 18,
+    alignSelf: "center",
   },
   distance: {
     fontSize: 16,
