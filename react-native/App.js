@@ -12,7 +12,7 @@ import Counters from "./src/screens/Counters";
 import SimpleCalculator from "./src/components/SimpleCalculator";
 import FullCalculator from "./src/screens/FullCalculator";
 import FoodieScreen from "./src/screens/FoodieScreen";
-import YelpBusinessDetails from "./src/components/YelpBusinessDetails";
+import YelpBusinessDetails from "./src/screens/YelpBusinessDetails";
 
 const navigator = createStackNavigator(
   {
