@@ -1,7 +1,15 @@
-import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import yelp from "../api/yelp.js";
 import { useState, useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";
+import openMap from "react-native-open-maps";
 
 const YelpBusinessDetails = ({ navigation }) => {
   let { businessId } = navigation.state.params;
@@ -24,6 +32,11 @@ const YelpBusinessDetails = ({ navigation }) => {
       <Image style={styles.image} source={{ uri: item }} resizeMode="cover" />
     );
   };
+  const goto = () => {
+    openMap({
+      end: `${business.coordinates.latitude},${business.coordinates.longitude}`,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -36,6 +49,7 @@ const YelpBusinessDetails = ({ navigation }) => {
         renderItem={renderPhoto}
         style={styles.carousel}
         autoPlay={true}
+        autoPlayInterval={1000}
         width={dimension.width}
         height={0.3 * dimension.height}
       />
@@ -63,6 +77,9 @@ const YelpBusinessDetails = ({ navigation }) => {
           <Text style={styles.location}>{business.phone}</Text>
         </View>
       </View>
+      <TouchableOpacity onPress={goto} style={styles.goto}>
+        <Text style={styles.distance}>Go</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -122,6 +139,13 @@ const styles = StyleSheet.create({
   distance: {
     fontSize: 16,
     alignSelf: "center",
+  },
+  goto: {
+    backgroundColor: "lightblue",
+    padding: 10,
+    borderRadius: 16,
+    width: "100%",
+    marginTop: "auto",
   },
 });
 
