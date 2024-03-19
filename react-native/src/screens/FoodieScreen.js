@@ -4,16 +4,18 @@ import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import YelpBusinessPreview from "../components/YelpBusinessPreview";
 
-const ScrollableRow = ({ title, businesses }) => {
+const ScrollableRow = ({ title, businesses, navigation }) => {
   return (
-    <View>
-      <Text style={styles.text}>{title}</Text>
+    <View style={styles.rowContainer}>
+      <Text style={styles.rowTitle}>{title}</Text>
       <FlatList
         horizontal
         data={businesses}
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
-          return <YelpBusinessPreview business={item} />;
+          return (
+            <YelpBusinessPreview business={item} navigation={navigation} />
+          );
         }}
       />
     </View>
@@ -21,6 +23,7 @@ const ScrollableRow = ({ title, businesses }) => {
 };
 
 const FoodieScreen = ({ navigation }) => {
+  const [searchResults, setSearchResults] = useState([]);
   const [costEffective, setCostEffective] = useState("");
   const [moreExpensive, setMoreExpensive] = useState("");
   const [asian, setAsian] = useState("");
@@ -52,20 +55,48 @@ const FoodieScreen = ({ navigation }) => {
       await Promise.all([
         makeYelpRequest({ price: 1 }, setCostEffective),
         makeYelpRequest({ price: "3,4" }, setMoreExpensive),
-        makeYelpRequest({ categories: ["asianfusion"] }, setAsian),
+        makeYelpRequest({ term: "asian" }, setAsian),
       ]);
     })();
   }, []);
 
+  const onSearch = async (term) => {
+    await makeYelpRequest({ term }, setSearchResults);
+  };
+
   return (
     <View style={styles.container}>
       {errMessage ? <Text>{errMessage}</Text> : null}
-      <SearchBar onSubmit={makeYelpRequest} />
-      <ScrollView>
-        <ScrollableRow title="Cost Effective" businesses={costEffective} />
-        <ScrollableRow title="More Expensive" businesses={moreExpensive} />
-        <ScrollableRow title="Asian" businesses={asian} />
-      </ScrollView>
+      <SearchBar onSubmit={onSearch} />
+      {searchResults.length > 0 ? (
+        <FlatList
+          data={searchResults}
+          keyExtractor={(result) => result.id}
+          renderItem={({ item }) => {
+            return (
+              <YelpBusinessPreview business={item} navigation={navigation} />
+            );
+          }}
+        />
+      ) : (
+        <ScrollView>
+          <ScrollableRow
+            title="Cost Effective"
+            businesses={costEffective}
+            navigation={navigation}
+          />
+          <ScrollableRow
+            title="More Expensive"
+            businesses={moreExpensive}
+            navigation={navigation}
+          />
+          <ScrollableRow
+            title="Asian"
+            businesses={asian}
+            navigation={navigation}
+          />
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -78,6 +109,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 30,
+  },
+  rowContainer: {
+    marginVertical: 10,
+  },
+  rowTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginLeft: 15,
   },
 });
 
