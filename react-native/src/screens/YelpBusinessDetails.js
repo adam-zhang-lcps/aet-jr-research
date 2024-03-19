@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  Linking,
 } from "react-native";
 import yelp from "../api/yelp.js";
 import { useState, useEffect } from "react";
@@ -61,6 +62,9 @@ const YelpBusinessDetails = ({ navigation }) => {
       end: `${business.coordinates.latitude},${business.coordinates.longitude}`,
     });
   };
+  const call = () => {
+    Linking.openURL(`tel:${business.phone}`);
+  };
 
   return (
     <View style={styles.parent}>
@@ -95,12 +99,12 @@ const YelpBusinessDetails = ({ navigation }) => {
             </Text>
           )}
         </TouchableOpacity>
-        <View style={styles.infoContainer}>
+        <TouchableOpacity style={styles.infoContainer} onPress={call}>
           <View style={styles.iconContainer}>
             <Text style={styles.icon}>📞</Text>
             <Text style={styles.location}>{business.phone}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={styles.reviews}>
           {reviews.map((review) => {
             return <Review key={review.id} review={review} />;
