@@ -84,7 +84,7 @@ const YelpBusinessDetails = ({ navigation }) => {
           width={dimension.width}
           height={0.3 * dimension.height}
         />
-        <View style={styles.infoContainer}>
+        <TouchableOpacity style={styles.infoContainer} onPress={goto}>
           <View style={styles.iconContainer}>
             <Text style={styles.icon}>📍</Text>
             <Text style={styles.location}>{business.location.address1}</Text>
@@ -94,7 +94,7 @@ const YelpBusinessDetails = ({ navigation }) => {
               {Math.round(business.distance)}m
             </Text>
           )}
-        </View>
+        </TouchableOpacity>
         <View style={styles.infoContainer}>
           <View style={styles.iconContainer}>
             <Text style={styles.icon}>📞</Text>
