@@ -1,26 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, FlatList } from "react-native";
+import { Text, StyleSheet, View, FlatList, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import YelpBusinessPreview from "../components/YelpBusinessPreview";
 
+const ScrollableRow = ({ title, businesses }) => {
+  return (
+    <View>
+      <Text style={styles.text}>{title}</Text>
+      <FlatList
+        horizontal
+        data={businesses}
+        keyExtractor={(result) => result.id}
+        renderItem={({ item }) => {
+          return <YelpBusinessPreview business={item} />;
+        }}
+      />
+    </View>
+  );
+};
+
 const FoodieScreen = ({ navigation }) => {
-  const [results, setResults] = useState("");
+  const [costEffective, setCostEffective] = useState("");
+  const [moreExpensive, setMoreExpensive] = useState("");
+  const [asian, setAsian] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
-  const makeYelpRequest = async (term) => {
+  const makeYelpRequest = async (params, set) => {
     setErrMessage(null);
 
     try {
       const response = await yelp.get("/search", {
         params: {
           limit: 20,
-          term,
           location: "leesburg va",
+          ...params,
         },
       });
 
-      setResults(response.data.businesses);
+      set(response.data.businesses);
     } catch (err) {
       console.error(err);
       setErrMessage("Something went wrong");
@@ -28,9 +46,12 @@ const FoodieScreen = ({ navigation }) => {
   };
 
   // What the f*cking hell, React?
+  // This is the recommended way to fetch data on component mount with async/await
   useEffect(() => {
     (async () => {
-      await makeYelpRequest();
+      await makeYelpRequest({ price: 1 }, setCostEffective);
+      await makeYelpRequest({ price: "3,4" }, setMoreExpensive);
+      await makeYelpRequest({ categories: ["asianfusion"] }, setAsian);
     })();
   }, []);
 
@@ -38,15 +59,11 @@ const FoodieScreen = ({ navigation }) => {
     <View>
       {errMessage ? <Text>{errMessage}</Text> : null}
       <SearchBar onSubmit={makeYelpRequest} />
-      <FlatList
-        data={results}
-        keyExtractor={(result) => result.id}
-        renderItem={({ item }) => {
-          return (
-            <YelpBusinessPreview business={item} navigation={navigation} />
-          );
-        }}
-      />
+      <ScrollView>
+        <ScrollableRow title="Cost Effective" businesses={costEffective} />
+        <ScrollableRow title="More Expensive" businesses={moreExpensive} />
+        <ScrollableRow title="Asian" businesses={asian} />
+      </ScrollView>
     </View>
   );
 };
