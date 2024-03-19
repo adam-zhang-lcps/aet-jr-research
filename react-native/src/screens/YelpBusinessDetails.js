@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 16,
-    backgroundColor: "pink",
   },
   infoContainer: {
     flexDirection: "row",
