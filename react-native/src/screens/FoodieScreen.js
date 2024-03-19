@@ -58,7 +58,7 @@ const FoodieScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       {errMessage ? <Text>{errMessage}</Text> : null}
       <SearchBar onSubmit={makeYelpRequest} />
       <ScrollView>
@@ -71,6 +71,11 @@ const FoodieScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff",
+  },
   text: {
     fontSize: 30,
   },

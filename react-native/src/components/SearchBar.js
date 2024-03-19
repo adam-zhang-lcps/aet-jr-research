@@ -23,10 +23,11 @@ const SearchBar = ({ onSubmit }) => {
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    marginVertical: 10,
+    marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
     backgroundColor: "#F0EEEE",
-    height: 50,
-    marginRight: 15,
+    height: 60,
     flexDirection: "row",
   },
   iconStyle: {
