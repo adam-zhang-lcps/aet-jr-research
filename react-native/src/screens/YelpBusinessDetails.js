@@ -13,6 +13,18 @@ import { useState, useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import openMap from "react-native-open-maps";
 
+const HorizontalLine = () => {
+  return (
+    <View
+      style={{
+        borderBottomColor: "black",
+        borderBottomWidth: 1,
+        marginVertical: 10,
+      }}
+    />
+  );
+};
+
 const Review = ({ review }) => {
   return (
     <View style={styles.reviewContainer}>
@@ -107,9 +119,12 @@ const YelpBusinessDetails = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={styles.reviews}>
-          {reviews.map((review) => {
-            return <Review key={review.id} review={review} />;
-          })}
+          {reviews
+            .map((review) => {
+              return <Review key={review.id} review={review} />;
+            })
+            .flatMap((e) => [e, <HorizontalLine />]) // Me when there's no easy way to intersperse in JS
+            .slice(0, -1)}
         </View>
       </ScrollView>
       <TouchableOpacity onPress={goto} style={styles.goto}>
@@ -185,6 +200,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   reviewContainer: {
+    marginVertical: 8,
     flexDirection: "column",
   },
   reviewHeader: {
