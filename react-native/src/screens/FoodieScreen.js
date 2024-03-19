@@ -49,9 +49,11 @@ const FoodieScreen = ({ navigation }) => {
   // This is the recommended way to fetch data on component mount with async/await
   useEffect(() => {
     (async () => {
-      await makeYelpRequest({ price: 1 }, setCostEffective);
-      await makeYelpRequest({ price: "3,4" }, setMoreExpensive);
-      await makeYelpRequest({ categories: ["asianfusion"] }, setAsian);
+      await Promise.all([
+        makeYelpRequest({ price: 1 }, setCostEffective),
+        makeYelpRequest({ price: "3,4" }, setMoreExpensive),
+        makeYelpRequest({ categories: ["asianfusion"] }, setAsian),
+      ]);
     })();
   }, []);
 
