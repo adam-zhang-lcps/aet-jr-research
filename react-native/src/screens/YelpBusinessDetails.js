@@ -91,7 +91,7 @@ const YelpBusinessDetails = ({ navigation }) => {
           autoPlay={true}
           autoPlayInterval={1000}
           width={dimension.width}
-          height={0.3 * dimension.height}
+          height={0.4 * dimension.height}
         />
         <TouchableOpacity style={styles.infoContainer} onPress={goto}>
           <View style={styles.iconContainer}>
