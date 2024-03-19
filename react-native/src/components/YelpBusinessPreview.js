@@ -4,7 +4,10 @@ const YelpBusinessPreview = ({ business, navigation }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("YelpBusinessDetails", { businessId: business.id })
+        navigation.navigate("YelpBusinessDetails", {
+          businessId: business.id,
+          distance: Math.round(business.distance),
+        })
       }
       style={styles.container}
     >

@@ -29,7 +29,12 @@ const Review = ({ review }) => {
 };
 
 const YelpBusinessDetails = ({ navigation }) => {
-  let { businessId } = navigation.state.params;
+  // Why do we pass `distance` as a prop? Well, according to the Yelp API, the
+  // distance is optionally returned "in meters from the search location".
+  // Except that the details endpoint doesn't let you *specify* a search
+  // location, so it just never fucking returns anything. So we have to keep the
+  // one from the search screen. *Sigh*.
+  let { businessId, distance } = navigation.state.params;
   const dimension = Dimensions.get("window");
 
   const [business, setBusiness] = useState(null);
@@ -93,11 +98,7 @@ const YelpBusinessDetails = ({ navigation }) => {
             <Text style={styles.icon}>📍</Text>
             <Text style={styles.location}>{business.location.address1}</Text>
           </View>
-          {business.distance && (
-            <Text style={styles.distance}>
-              {Math.round(business.distance)}m
-            </Text>
-          )}
+          {distance && <Text style={styles.distance}>{distance}m</Text>}
         </TouchableOpacity>
         <TouchableOpacity style={styles.infoContainer} onPress={call}>
           <View style={styles.iconContainer}>
