@@ -5,7 +5,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  FlatList,
+  ScrollView,
 } from "react-native";
 import yelp from "../api/yelp.js";
 import { useState, useEffect } from "react";
@@ -16,8 +16,10 @@ const Review = ({ review }) => {
   return (
     <View style={styles.reviewContainer}>
       <View style={styles.reviewHeader}>
-        <Text style={styles.reviewName}>{review.user.name}</Text>
-        <Text>{review.time_created}</Text>
+        <View>
+          <Text style={styles.reviewName}>{review.user.name}</Text>
+          <Text>{review.time_created}</Text>
+        </View>
         <Text style={styles.reviewStars}>{"⭐".repeat(review.rating)}</Text>
       </View>
       <Text style={styles.reviewText}>{review.text}</Text>
@@ -61,59 +63,61 @@ const YelpBusinessDetails = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.infoContainer}>
-        <Text style={styles.title}>{business.name}</Text>
-        <Text style={styles.price}>{business.price}</Text>
-      </View>
-      <Carousel
-        data={business.photos}
-        renderItem={renderPhoto}
-        style={styles.carousel}
-        autoPlay={true}
-        autoPlayInterval={1000}
-        width={dimension.width}
-        height={0.3 * dimension.height}
-      />
-      <View style={styles.infoContainer}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>⭐</Text>
-          <Text style={styles.rating}>{business.rating.toFixed(1)}</Text>
+    <View style={styles.parent}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>{business.name}</Text>
+          <Text style={styles.price}>{business.price}</Text>
         </View>
-        <Text style={styles.reviewCount}>
-          ({business.review_count} reviews)
-        </Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>📍</Text>
-          <Text style={styles.location}>{business.location.address1}</Text>
-        </View>
-        {business.distance && (
-          <Text style={styles.distance}>{Math.round(business.distance)}m</Text>
-        )}
-      </View>
-      <View style={styles.infoContainer}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>📞</Text>
-          <Text style={styles.location}>{business.phone}</Text>
-        </View>
-      </View>
-      {business.date_opened && (
+        <Carousel
+          data={business.photos}
+          renderItem={renderPhoto}
+          style={styles.carousel}
+          autoPlay={true}
+          autoPlayInterval={1000}
+          width={dimension.width}
+          height={0.3 * dimension.height}
+        />
         <View style={styles.infoContainer}>
           <View style={styles.iconContainer}>
-            <Text style={styles.icon}>📅</Text>
-            <Text style={styles.location}>{business.date_opened}</Text>
+            <Text style={styles.icon}>⭐</Text>
+            <Text style={styles.rating}>{business.rating.toFixed(1)}</Text>
+          </View>
+          <Text style={styles.reviewCount}>
+            ({business.review_count} reviews)
+          </Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>📍</Text>
+            <Text style={styles.location}>{business.location.address1}</Text>
+          </View>
+          {business.distance && (
+            <Text style={styles.distance}>
+              {Math.round(business.distance)}m
+            </Text>
+          )}
+        </View>
+        <View style={styles.infoContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>📞</Text>
+            <Text style={styles.location}>{business.phone}</Text>
           </View>
         </View>
-      )}
-      <FlatList
-        data={reviews}
-        keyExtractor={(review) => review.id}
-        renderItem={({ item }) => {
-          return <Review review={item} />;
-        }}
-      />
+        {business.date_opened && (
+          <View style={styles.infoContainer}>
+            <View style={styles.iconContainer}>
+              <Text style={styles.icon}>📅</Text>
+              <Text style={styles.location}>{business.date_opened}</Text>
+            </View>
+          </View>
+        )}
+        <View style={styles.reviews}>
+          {reviews.map((review) => {
+            return <Review key={review.id} review={review} />;
+          })}
+        </View>
+      </ScrollView>
       <TouchableOpacity onPress={goto} style={styles.goto}>
         <Text style={styles.distance}>Go</Text>
       </TouchableOpacity>
@@ -122,11 +126,16 @@ const YelpBusinessDetails = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  parent: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#F0EEEE",
+  },
+  container: {
+    flexDirection: "column",
+    alignItems: "stretch",
     margin: 10,
     borderRadius: 16,
     padding: 10,
@@ -177,12 +186,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: "center",
   },
-  goto: {
-    backgroundColor: "lightblue",
-    padding: 10,
-    borderRadius: 16,
-    width: "100%",
-    marginTop: "auto",
+  reviews: {
+    marginTop: 18,
   },
   reviewContainer: {
     flexDirection: "column",
@@ -198,8 +203,18 @@ const styles = StyleSheet.create({
   },
   reviewStars: {
     marginLeft: "auto",
+    alignSelf: "center",
   },
-  reviewText: {},
+  reviewText: {
+    fontSize: 16,
+  },
+  goto: {
+    margin: 10,
+    width: "90%",
+    backgroundColor: "lightblue",
+    padding: 10,
+    borderRadius: 16,
+  },
 });
 
 export default YelpBusinessDetails;
