@@ -98,7 +98,7 @@ const YelpBusinessDetails = ({ navigation }) => {
             <Text style={styles.icon}>📍</Text>
             <Text style={styles.location}>{business.location.address1}</Text>
           </View>
-          {distance && <Text style={styles.distance}>{distance}m</Text>}
+          {distance && <Text style={styles.distance}>{distance}mi</Text>}
         </TouchableOpacity>
         <TouchableOpacity style={styles.infoContainer} onPress={call}>
           <View style={styles.iconContainer}>

@@ -1,12 +1,16 @@
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
+const MILES_PER_METER = 0.0006213712;
+
 const YelpBusinessPreview = ({ business, navigation }) => {
+  const distance = Math.round(business.distance * MILES_PER_METER);
+
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("YelpBusinessDetails", {
           businessId: business.id,
-          distance: Math.round(business.distance),
+          distance,
         })
       }
       style={styles.container}
@@ -24,7 +28,7 @@ const YelpBusinessPreview = ({ business, navigation }) => {
         <Text>
           <Text>📍</Text> {business.location.address1}
         </Text>
-        <Text>{Math.round(business.distance)}m</Text>
+        <Text>{distance}mi</Text>
       </View>
     </TouchableOpacity>
   );
