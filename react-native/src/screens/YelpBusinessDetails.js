@@ -19,7 +19,7 @@ const HorizontalLine = () => {
       style={{
         borderBottomColor: "black",
         borderBottomWidth: 1,
-        marginVertical: 10,
+        marginVertical: 4,
       }}
     />
   );
@@ -110,7 +110,7 @@ const YelpBusinessDetails = ({ navigation }) => {
             <Text style={styles.icon}>📍</Text>
             <Text style={styles.location}>{business.location.address1}</Text>
           </View>
-          {distance && <Text style={styles.distance}>{distance}mi</Text>}
+          <Text style={styles.distance}>{distance}mi</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.infoContainer} onPress={call}>
           <View style={styles.iconContainer}>
@@ -123,7 +123,7 @@ const YelpBusinessDetails = ({ navigation }) => {
             .map((review) => {
               return <Review key={review.id} review={review} />;
             })
-            .flatMap((e) => [e, <HorizontalLine />]) // Me when there's no easy way to intersperse in JS
+            .flatMap((e, index) => [e, <HorizontalLine key={index} />]) // Me when there's no easy way to intersperse in JS
             .slice(0, -1)}
         </View>
       </ScrollView>
