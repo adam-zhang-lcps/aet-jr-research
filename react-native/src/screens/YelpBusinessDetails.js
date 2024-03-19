@@ -65,9 +65,15 @@ const YelpBusinessDetails = ({ navigation }) => {
   return (
     <View style={styles.parent}>
       <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>{business.name}</Text>
         <View style={styles.infoContainer}>
-          <Text style={styles.title}>{business.name}</Text>
-          <Text style={styles.price}>{business.price}</Text>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>⭐</Text>
+            <Text style={styles.rating}>{business.rating.toFixed(1)}</Text>
+          </View>
+          <Text style={styles.reviewCount}>
+            ({business.review_count} reviews)
+          </Text>
         </View>
         <Carousel
           data={business.photos}
@@ -78,15 +84,6 @@ const YelpBusinessDetails = ({ navigation }) => {
           width={dimension.width}
           height={0.3 * dimension.height}
         />
-        <View style={styles.infoContainer}>
-          <View style={styles.iconContainer}>
-            <Text style={styles.icon}>⭐</Text>
-            <Text style={styles.rating}>{business.rating.toFixed(1)}</Text>
-          </View>
-          <Text style={styles.reviewCount}>
-            ({business.review_count} reviews)
-          </Text>
-        </View>
         <View style={styles.infoContainer}>
           <View style={styles.iconContainer}>
             <Text style={styles.icon}>📍</Text>
@@ -104,14 +101,6 @@ const YelpBusinessDetails = ({ navigation }) => {
             <Text style={styles.location}>{business.phone}</Text>
           </View>
         </View>
-        {business.date_opened && (
-          <View style={styles.infoContainer}>
-            <View style={styles.iconContainer}>
-              <Text style={styles.icon}>📅</Text>
-              <Text style={styles.location}>{business.date_opened}</Text>
-            </View>
-          </View>
-        )}
         <View style={styles.reviews}>
           {reviews.map((review) => {
             return <Review key={review.id} review={review} />;
@@ -150,6 +139,7 @@ const styles = StyleSheet.create({
   },
   carousel: {
     width: "100%",
+    marginVertical: 10,
     justifyContent: "center",
     backgroundColor: "pink",
   },
