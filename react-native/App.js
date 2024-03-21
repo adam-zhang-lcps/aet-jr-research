@@ -13,6 +13,7 @@ import SimpleCalculator from "./src/components/SimpleCalculator";
 import FullCalculator from "./src/screens/FullCalculator";
 import FoodieScreen from "./src/screens/FoodieScreen";
 import YelpBusinessDetails from "./src/screens/YelpBusinessDetails";
+import WeatherScreen from "./src/screens/WeatherScreen";
 
 const navigator = createStackNavigator(
   {
@@ -29,6 +30,7 @@ const navigator = createStackNavigator(
     FullCalculator,
     FoodieScreen,
     YelpBusinessDetails,
+    WeatherScreen,
   },
   {
     initialRouteName: "Home",
