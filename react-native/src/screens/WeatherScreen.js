@@ -20,7 +20,7 @@ const WeatherScreen = () => {
         <View style={styles.container}>
             <Text style={styles.text}>{data.nearest_area[0].areaName[0].value}</Text>
             <Text style={styles.text}>{data.current_condition[0].weatherDesc[0].value}</Text>
-            <Text style={styles.text}>{data.current_condition[0].temp_C}°C</Text>
+            <Text style={styles.text}>{data.current_condition[0].temp_F}°F</Text>
         </View>
     );
 };
